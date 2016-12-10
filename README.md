@@ -21,14 +21,14 @@ sudo make install
 
 #USAGE
 
-- filter results with as many parameters as needed
 ```
+# filter results with as many parameters as needed
+
 # search for pulp fiction
 trrr pulp fiction
 
 # to limit results by minimum number of seeders add -Nr as last parameter
 trrr pulp fiction -100
-
 ```
 
 First column is assigned key. To pick a result pres assigned key and it'll be opened in your default torrent client.

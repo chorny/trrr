@@ -9,6 +9,7 @@ use HTTP::Tiny;
 use JSON::PP;
 use Term::ANSIColor;
 use App::Trrr::HotKey qw< readkey >;
+use App::Trrr::Open qw< open_app >;
 
 my $help = <<'EOT';
 
@@ -30,6 +31,7 @@ say $help unless @ARGV;
 my $seeds = 1; 
 $seeds = $ARGV[$#ARGV] if $ARGV[$#ARGV] =~ /^-/; 
 $seeds =~ s/-//;
+my $torrent_file = "$ENV{HOME}/.trrr.torrent";
 my $url = 'http://extratorrent.cc/json/?cid=4&search=' . join '+', @ARGV;
 
 my $response = HTTP::Tiny->new->get($url);
@@ -48,7 +50,14 @@ for(@filter){
 my $pick = readkey();
 my @picked = grep { $_->{key} eq $pick } @filter;
 
-for(@picked){ say $_->{torrentLink} }
+for(@picked){ 
+    my $torrent = HTTP::Tiny->new->get("$_->{torrentLink}");
+    open(my $fh,'>',$torrent_file)||die "cant open $torrent_file: $!";
+    print $fh $torrent->{content};
+    close $fh;
+    open_app($torrent_file);
+}
+
 
 __DATA__
 OSX /Applications/WebTorrent.app/Contents//MacOS/WebTorrent

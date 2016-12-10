@@ -23,7 +23,6 @@ sudo make install
 
 ```
 # filter results with as many parameters as needed
-
 # search for pulp fiction
 trrr pulp fiction
 

@@ -1,4 +1,5 @@
-#NAME 
+#NAME
+
 trrr - search torrents from CLI
 
 #SYNOPSIS

@@ -1,0 +1,57 @@
+#!/usr/bin/env perl
+
+use 5.010;
+use strict;
+use warnings;
+
+use Data::Dumper; 
+use HTTP::Tiny;
+use JSON::PP;
+use Term::ANSIColor;
+use App::Trrr::HotKey qw< readkey >;
+
+my $help = <<'EOT';
+
+USAGE: 
+    	trrr keyword1 keyword2 -N 
+			
+			- search
+	    trrr big lebowski
+	    
+	    - limitt search where seeders > 10
+	    trrr big lebowski -10
+
+
+EOT
+
+say $help unless @ARGV;
+
+#my $term = tput cols; 
+my $seeds = 1; 
+$seeds = $ARGV[$#ARGV] if $ARGV[$#ARGV] =~ /^-/; 
+$seeds =~ s/-//;
+my $url = 'http://extratorrent.cc/json/?cid=4&search=' . join '+', @ARGV;
+
+my $response = HTTP::Tiny->new->get($url);
+
+my $results = decode_json $response->{content};
+my @filter = grep { $_->{seeds} > $seeds } @{$results->{list}};
+
+my $key = 'a';
+say colored(['white on_blue'],"Seeds\t") . colored(['white on_yellow'],"Title\t");
+for(@filter){
+    $_->{key} = $key;;
+    say $key . "\t" .  colored(['blue'],$_->{seeds}) . "\t" . colored(['yellow'], $_->{title}) . "\t" . int($_->{size}/1000/1000) . 'M';
+    $key++;
+}
+
+my $pick = readkey();
+my @picked = grep { $_->{key} eq $pick } @filter;
+
+for(@picked){ say $_->{torrentLink} }
+
+__DATA__
+OSX /Applications/WebTorrent.app/Contents//MacOS/WebTorrent
+
+$VAR1 = { 'link' => 'http://extratorrent.cc', 'description' => 'Extratorrent Search: big lebowski', 'title' => 'Extratorrent Search: big lebowski', 'list' => [ { 'files' => 17, 'torrentLink' => 'http://extratorrent.cc/download/2277121/', 'leechs' => -1, 'link' => 'http://extratorrent.cc/torrent/2277121/', 'hash' => 'b7cbd4a6be50403f17df469f3759d17a82ee6c28', 'category' => 'Movies', 'subcategory' => 'Comedy', 'seeds' => -1, ], 'total_results' => 73 };
+

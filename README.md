@@ -7,6 +7,9 @@ trrr - search torrents from CLI
 
 CLI tool for searching torrents using as few keystrokes as it gets. Looking for torrents throught web browser can often be annoying as you are flooded with popups and fake Download buttons. trrr is written in Perl, has no non-core dependencies. It's using extratorrent API, filters and sorts results which are then mapped to keys. Press the key with assigned letter and it will download+open torrent in your default client. 
 
+#GIF
+
+![trrr](https://raw.githubusercontent.com/z448/trrr/master/trrr.gif)
 
 #INSTALATION
 

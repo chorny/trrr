@@ -71,12 +71,12 @@ sub show {
         open(my $fh,'>',$torrent_file)||die "cant open $torrent_file: $!";
         print $fh $torrent->{content};
         close $fh;
-        say 'saved ~/Downloads/trrr.torrent';
         open_app($torrent_file);
     }
 }
 
 show();
+say 'saved ~/Downloads/trrr.torrent';
 
 =head1 NAME
 

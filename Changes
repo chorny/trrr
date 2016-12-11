@@ -1,4 +1,7 @@
 11.12.2016
 - changed torrent download path to ~/Downloads
 - table width optimize to terminal width
+- changed displayed size of torrents to Mb
+- perldoc
+
 

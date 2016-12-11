@@ -21,12 +21,16 @@ sudo make install
 
 #USAGE
 
-```
-# filter results with as many parameters as needed
-# search for pulp fiction
-trrr pulp fiction
+Filter results with as many parameters as needed
+Search for pulp fiction
 
-# to limit results by minimum number of seeders add -Nr as last parameter
+```
+trrr pulp fiction
+```
+
+To limit results by minimum number of seeders add -Nr as last parameter
+
+```
 trrr pulp fiction -100
 ```
 

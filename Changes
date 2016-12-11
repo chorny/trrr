@@ -1,3 +1,4 @@
 11.12.2016
-changed torrent download path to ~/Downloads
+- changed torrent download path to ~/Downloads
+- table width optimize to terminal width
 

@@ -46,11 +46,13 @@ my $strip = sub {
     my $item = shift;
     my $term_width  = int `tput cols`; 
     my $line = '-' . ' ' . $item->{seeds} . ' ' . "$item->{title}" . ' ' . "$item->{size}" . 'M';
+    my $max = $term_width - length('-' . ' ' . $item->{seeds} . ' ' . ' ' . "$item->{size}" . 'M');
 
     if( $term_width < length($line)){
         my $strip = length($line) - $term_width;
         my $stripped_title = $term_width - $strip + 0;
-        $item->{title} = substr( $item->{title},0,$stripped_title );
+        $item->{title} = substr( $item->{title},0,$max);
+        #$item->{title} = substr( $item->{title},0,$stripped_title );
     } 
     return $item->{title};
 };

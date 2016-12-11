@@ -46,14 +46,32 @@ my $key = 'A';
 my $key_color;
 my $i = 1;
 
-say colored(['white on_blue'],"Seeds\t") . colored(['white on_yellow'],"Title\t");
+sub strip_title {
+    my $item = shift;
+    my $title;
+
+    my $line = '-' . "-" . $item->{seeds} . "-" . $item->{title} . "-" . $item->{size} . 'M' . '-';
+
+    if( $term_width < length($line)){
+        my $strip = length($line) - $term_width;
+        my $stripped_title = $term_width - $strip;
+        $title = substr( $item->{title},0,$stripped_title );
+        #say "title: $title";
+        #say "strip is" .  $strip;
+        #say "stripped_title" . $stripped_title;
+    } else { $title = $item->{title} }
+    return $title;
+}
+
 for(@filter){
     if( $i % 2 ){ $key_color = 'black on_white' } else { $key_color = 'white on_black' }
     $_->{key} = $key;
 
-    say colored([$key_color],$key) . "\ " .  colored(['blue'],$_->{seeds}) . "\t" . colored(['yellow'], $_->{title}) . "\t" . int($_->{size}/1000/1000) . 'M';
+    #say 'real title:' . $_->{title};
+    say colored([$key_color],$key) . "\ " . colored(['blue'],$_->{seeds}) . "\ " .  colored(['yellow'],strip_title($_)) . "\ " . $_->{size} . 'M';
     $key++; $i++;
 }
+#die;
 
 my $pick = readkey();
 my @picked = grep { $_->{key} eq uc $pick } @filter;

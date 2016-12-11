@@ -27,7 +27,6 @@ EOT
 
 say $help unless @ARGV;
 
-#my $term = tput cols; 
 my $seeds = 1; 
 $seeds = $ARGV[$#ARGV] if $ARGV[$#ARGV] =~ /^-/; 
 $seeds =~ s/-//;
@@ -38,17 +37,27 @@ my $response = HTTP::Tiny->new->get($url);
 
 my $results = decode_json $response->{content};
 my @filter = grep { $_->{seeds} > $seeds } @{$results->{list}};
+@filter = sort { $b->{seeds} <=> $a->{seeds} } @filter;
+@filter = splice(@filter,0,15);
 
-my $key = 'a';
+my $term_width  = `tput cols`; 
+
+my $key = 'A';
+my $key_color;
+my $i = 1;
+
 say colored(['white on_blue'],"Seeds\t") . colored(['white on_yellow'],"Title\t");
 for(@filter){
-    $_->{key} = $key;;
-    say $key . "\t" .  colored(['blue'],$_->{seeds}) . "\t" . colored(['yellow'], $_->{title}) . "\t" . int($_->{size}/1000/1000) . 'M';
-    $key++;
+    if( $i % 2 ){ $key_color = 'black on_white' } else { $key_color = 'white on_black' }
+    $_->{key} = $key;
+
+    say colored([$key_color],$key) . "\ " .  colored(['blue'],$_->{seeds}) . "\t" . colored(['yellow'], $_->{title}) . "\t" . int($_->{size}/1000/1000) . 'M';
+    $key++; $i++;
 }
 
 my $pick = readkey();
-my @picked = grep { $_->{key} eq $pick } @filter;
+my @picked = grep { $_->{key} eq uc $pick } @filter;
+#my @picked = grep { $_->{key} eq $pick } @filter;
 
 for(@picked){ 
     my $torrent = HTTP::Tiny->new->get("$_->{torrentLink}");

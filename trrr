@@ -4,7 +4,7 @@ use 5.010;
 use strict;
 use warnings;
 
-use Data::Dumper; 
+use POSIX;
 use HTTP::Tiny;
 use JSON::PP;
 use Term::ANSIColor;
@@ -28,20 +28,22 @@ my $results = decode_json $response->{content};
 
 my $strip = sub {
     my( $item, $field ) = @_;
-    #my $item = shift;
     my $term_width  = int `tput cols`; 
-    $item->{size} = int($item->{size})/1000;
-#$item->{size} = "$item->{size}"; $item->{size} =~ s/(.*?)(\.*)/$1/; 
+    my $size = ceil(int($item->{size})/1000/1000);
     
-    my $line = '-' . ' ' . $item->{seeds} . ' ' . "$item->{title}" . ' ' . "$item->{size}" . 'M';
-    my $max = $term_width - length('-' . ' ' . $item->{seeds} . ' ' . ' ' . "$item->{size}" . 'M');
+    my $line = '-' . ' ' . $item->{seeds} . ' ' . "$item->{title}" . ' ' . $item->{category} . ' ' . $size . 'M';
+    my $max = $term_width - length($line);
 
     if( $term_width < length($line)){
         my $strip = length($line) - $term_width;
         my $stripped_title = $term_width - $strip + 0;
         $item->{title} = substr( $item->{title},0,$max);
     } 
-    return $item->{$field};
+    my $title = $item->{title};
+    my $striped = {};
+    $striped->{title} = $title;
+    $striped->{size} = $size;
+    return $striped->{$field}
 };
 
 sub show {
@@ -58,12 +60,12 @@ sub show {
 
         my $title = $strip->($_,'title');
         my $size = $strip->($_,'size');
-        print  colored([$key_color],$key) . ' ' . colored(['cyan'],$_->{seeds}) . ' ' .  colored(['yellow'],$title) . ' ' ;
-         printf("%.0f", $size); print 'M' . "\n";
+        say colored([$key_color],$key) . ' ' . colored(['cyan'],$_->{seeds}) . ' ' .  colored(['yellow'],$title) . ' ' . colored(['grey15'], $_->{category}) . ' ' . $size . 'M';
         $key++; $i++;
     }
 
     my $pick = readkey();
+    say 'saving ~/Downloads/trrr.torrent' if $pick =~ /[a-o]/;
     my @picked = grep { $_->{key} eq uc $pick } @filter;
 
     for(@picked){ 
@@ -76,7 +78,6 @@ sub show {
 }
 
 show();
-say 'saved ~/Downloads/trrr.torrent';
 
 =head1 NAME
 

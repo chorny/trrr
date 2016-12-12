@@ -7,6 +7,4 @@
 12.12.2016
 - fixed table width
 - saving only if key is in range a-o
-
-
-
+- added Encode module, fix for Unicode characters ..'wide char in print...'

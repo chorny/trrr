@@ -14,6 +14,7 @@ WriteMakefile(
         'JSON::PP'      =>  0,
         'POSIX'         =>  0,
         'Term::ASCIColor'    =>  0,
+        'Encode'        =>0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'iOS-Activator-Listener-Create-*' },

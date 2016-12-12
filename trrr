@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use POSIX;
+use Encode qw< encode >;
 use HTTP::Tiny;
 use JSON::PP;
 use Term::ANSIColor;
@@ -22,7 +23,8 @@ my $torrent_file = "$ENV{HOME}/Downloads/trrr.torrent";
 my $url = 'http://extratorrent.cc/json/?cid=4&search=' . join '+', @ARGV;
 
 my $response = HTTP::Tiny->new->get($url);
-my $results = decode_json $response->{content};
+#my $results = decode_json $response->{content};
+my $results = decode_json( encode('utf8', $response->{content}) );
 
 
 

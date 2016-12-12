@@ -11,6 +11,7 @@ use JSON::PP;
 use Term::ANSIColor;
 use App::Trrr::HotKey qw< readkey >;
 use App::Trrr::Open qw< open_app >;
+#binmode(STDOUT, ":utf8");
 
 unless(@ARGV){ system("perldoc trrr"); exit }
 if( $ARGV[0] eq '-h' ){ system("perldoc trrr"); exit }
@@ -23,17 +24,14 @@ my $torrent_file = "$ENV{HOME}/Downloads/trrr.torrent";
 my $url = 'http://extratorrent.cc/json/?cid=4&search=' . join '+', @ARGV;
 
 my $response = HTTP::Tiny->new->get($url);
-#my $results = decode_json $response->{content};
 my $results = decode_json( encode('utf8', $response->{content}) );
-
-
 
 my $strip = sub {
     my( $item, $field ) = @_;
     my $term_width  = int `tput cols`; 
     my $size = ceil(int($item->{size})/1000/1000);
     
-    my $line = '-' . ' ' . $item->{seeds} . ' ' . "$item->{title}" . ' ' . $item->{category} . ' ' . $size . 'M';
+    my $line = $item->{key} . ' ' . $item->{seeds} . ' ' . "$item->{title}" . ' ' . $item->{category} . ' ' . $size . 'M';
     my $max = $term_width - length($line);
 
     if( $term_width < length($line)){
@@ -60,9 +58,12 @@ sub show {
         if( $i % 2 ){ $key_color = 'black on_white' } else { $key_color = 'white on_black' }
         $_->{key} = $key;
 
+        #if($_->{category} eq 'Movies'){ $_->{category} = "\x{1f3a5}" . ' ' }
+
         my $title = $strip->($_,'title');
         my $size = $strip->($_,'size');
-        say colored([$key_color],$key) . ' ' . colored(['cyan'],$_->{seeds}) . ' ' .  colored(['yellow'],$title) . ' ' . colored(['grey15'], $_->{category}) . ' ' . $size . 'M';
+        my $category = $strip->($_, 'category');
+        say colored([$key_color],$key) . ' ' . colored(['cyan'],$_->{seeds}) . ' ' .  colored(['yellow'],$title) . ' ' . colored(['white'],$_->{category}) . ' ' . $size . 'M';
         $key++; $i++;
     }
 

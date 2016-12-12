@@ -103,3 +103,16 @@ C<trrr perl tutorial video -100>
 
 =cut
 
+__DATA__
+get movie box json
+
+get db link
+curl -L 'http://sbfunapi.cc/api/serials/get_db_link/' > db_link
+
+get zip of db
+curl --user-agent "MovieBox3/3.6.8 (iPhone; iOS 8.4; Scale/2.00)" -L "https://vk.com/doc199140917_439773875" > db2
+
+unzip db2
+
+
+

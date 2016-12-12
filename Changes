@@ -4,4 +4,9 @@
 - changed displayed size of torrents to Mb
 - perldoc
 
+12.12.2016
+- fixed table width
+- saving only if key is in range a-o
+
+
 

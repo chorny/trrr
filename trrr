@@ -120,3 +120,38 @@ unzip db2
 
 
 
+#!/usr/bin/env perl
+
+my $module = 'notok';
+my $os = "$^O";
+#print $os;
+
+unless($os eq 'MSWin32' or $os eq 'msys'){
+    require App::Trrr::HotKey;
+    App::Trrr::HotKey->import( readkey ) ;
+    my $key = readkey();
+    print 'os is unix' . $key . "\n";
+} else {
+    print "no readkey";
+}
+
+
+__DATA__
+# win support 
+# use pl2bat;
+
+
+my $rc = eval
+{
+  require App::Trrr::HotKey;
+  App::Trrr::HotKey->import();
+  1;
+};
+
+if($rc)
+{
+    $module = 'ok';
+  # Term::ReadKey loaded and imported successfully
+}
+
+print $module;

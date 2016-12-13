@@ -20,7 +20,7 @@ sub open_app {
     my $url = shift;
     my $os = {  osx     => 'open', # ----------use 'uiopen' if osx
                 ios     => 'uiopen', # --------use 'uiopen' if ios
-                ubuntu  => 'firefox', # -------use 'firefox' if Ubuntu
+                ubuntu  => 'xdg-open', # -------use 'firefox' if Ubuntu
                 linux   => 'xdg-open', # ------use 'xdg-open if non-ubutnu linux
     };
     # open pipe to 'uname' command and stream output to <$pipe>  filehandle
@@ -29,8 +29,8 @@ sub open_app {
         # ----use regex to find os
         if(/iPhone/){ system("$os->{ios} $url") }
         elsif(/Darwin/){ system("$os->{osx} $url") }
-        elsif(/Ubuntu/){ system("$os->{ubuntu} $url") }
-        elsif(/Linux/){ my $open = $check_xdg->($os->{linux}) . ' ' . $url; system("$open") }
+        elsif(/Ubuntu/){ system("nohup $os->{ubuntu} $url& > /dev/null") }
+        elsif(/Linux/){ my $open = $check_xdg->($os->{linux}); system("nohup $open $url& > /dev/null") }
     }
 };
 

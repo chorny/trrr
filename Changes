@@ -8,3 +8,8 @@
 - fixed table width
 - saving only if key is in range a-o
 - added Encode module, fix for Unicode characters ..'wide char in print...'
+
+13.12.2016
+- POSIX exports only ceil()
+- linux & ubuntu opens with nohup xdg-open
+

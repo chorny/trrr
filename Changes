@@ -12,4 +12,8 @@
 13.12.2016
 - POSIX exports only ceil()
 - linux & ubuntu opens with nohup xdg-open
+- fixed seeds limits
+- added option -A -B -C to pick result from command line
+- windows support; must include -A -B -C ... on command line as there is no POSIX::termios_h
+
 

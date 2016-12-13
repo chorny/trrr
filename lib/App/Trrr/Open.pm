@@ -24,13 +24,16 @@ sub open_app {
                 linux   => 'xdg-open', # ------use 'xdg-open if non-ubutnu linux
     };
     # open pipe to 'uname' command and stream output to <$pipe>  filehandle
+    if($^O eq 'MSWin32' or $^O eq 'msys'){ system("$url"); return }
     open my $pipe,"-|",'uname -a';
     while(<$pipe>){
         # ----use regex to find os
         if(/iPhone/){ system("$os->{ios} $url") }
         elsif(/Darwin/){ system("$os->{osx} $url") }
-        elsif(/Ubuntu/){ system("nohup $os->{ubuntu} $url& > /dev/null") }
-        elsif(/Linux/){ my $open = $check_xdg->($os->{linux}); system("nohup $open $url& > /dev/null") }
+        elsif(/Ubuntu/){ system("$os->{ubuntu} $url") }
+        #elsif(/Ubuntu/){ system("$os->{ubuntu} $url > /dev/null") }
+        elsif(/Linux/){ my $open = $check_xdg->($os->{linux}); system("$open $url") }
+        #elsif(/Linux/){ my $open = $check_xdg->($os->{linux}); system("$open $url > /dev/null") }
     }
 };
 

@@ -15,6 +15,14 @@ CLI tool for searching torrents using as few keystrokes as it gets. Looking for 
 
 #INSTALATION
 
+-if you have [cpanm](https://metacpan.org/pod/App::cpanminus)
+
+```
+cpanm App::Trrr
+```
+
+or
+
 ```
 git clone https://github.com/z448/trrr
 cd trrr

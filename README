@@ -1,0 +1,38 @@
+NAME
+    App::Trrr - search torrents on CLI
+
+SYNOPSIS
+    CLI tool to search torrents using extratorrent API, Filters and sorts
+    results which are then mapped to keys. Press the key with assigned
+    letter and it will download and open torrent in your default client.
+
+USAGE
+    - filter results with as many parameters as needed
+
+    - to search torrent filter keywords sa parameters
+
+    `trrr keyword1 keyword2 keywordN'
+
+    - to limit results by minimum number of seeders add number as last
+    parameter
+
+    `trrr keyword1 keyword2 keywordN -100'
+
+    - first column is assigned key. To pick a result pres assigned key and
+    it'll be opened in your default torrent client.
+
+    - to pick result from previous search add letter on command line
+
+    `trrr keyword1 keyword2 keywordN -100 -a'
+
+    - App::Trr::HotKey is taken from StackOverflow post by brian d foy
+
+AUTHOR
+    Zdeněk Bohuněk. <zdenek@cpan.org>
+
+COPYRIGHT AND LICENSE
+    Copyright 2016 by Zdeněk Bohuněk
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+

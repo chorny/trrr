@@ -1,8 +1,8 @@
 Changes
-lib
 lib/App/Trrr/HotKey.pm
-lib/App/Trrr/Open.pm
+lib/App/Trrr.pm
 Makefile.PL
 MANIFEST
 README.md
 trrr
+README

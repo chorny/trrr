@@ -1,5 +1,8 @@
 ﻿package App::Trrr::HotKey;
+
+# this module is taken from StackOverflow post by brian d foy
 # HotKey.pm read user input immediately after first character w/o waiting for enter ( POSIX )
+
 @ISA = qw(Exporter);
 @EXPORT = qw(cbreak cooked readkey);
 

@@ -13,7 +13,7 @@ WriteMakefile(
         'HTTP::Tiny'    =>  0,
         'JSON::PP'      =>  0,
         'POSIX'         =>  0,
-        'Term::ASCIColor'    =>  0,
+        'Term::ANSIColor'    =>  0,
         'Encode'        =>0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },

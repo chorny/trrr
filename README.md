@@ -20,7 +20,7 @@ CLI tool for searching torrents using as few keystrokes as it gets. Looking for 
 sudo cpan App::Trrr
 ```
 
-or
+or 
 
 ```
 git clone https://github.com/z448/trrr
@@ -29,6 +29,8 @@ perl Makefile.PL
 make
 sudo make install
 ```
+
+For **iOS** there is also build on my repository. Add [http://load.sh/cydia](http://load.sh/cydia) into Cydia sources, search for `trrr` and install.
 
 
 #USAGE

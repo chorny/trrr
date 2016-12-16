@@ -74,6 +74,7 @@ sub show {
 
         $_->{key} = $key;
         my $title = $strip->($_,'title');
+        $_->{file} = $title; $_->{file} =~ s/\ //g; $_->{file} .= '.torrent';
         my $size = $strip->($_,'size');
         
         say colored([$key_color],$key) . ' ' . colored(['cyan'],$_->{seeds}) . ' ' .  colored(['yellow'],$title) . ' ' . colored(['white'],$_->{category}) . ' ' . $size . 'M' if defined $_->{key};
@@ -99,15 +100,16 @@ sub key {
 
 sub get_torrent {
     my $filter = shift;
-    say 'saving ~/Downloads/trrr.torrent' if $opt->{key} =~ /[a-o]/;
+    say 'saving to ~/Downloads' if $opt->{key} =~ /[a-o]/;
     my @picked = grep { $_->{key} eq uc $opt->{key} } @$filter;
 
     for(@picked){ 
+        my $path = $ENV{HOME} . '/Downloads/' . $_->{file};
         my $torrent = HTTP::Tiny->new->get("$_->{torrentLink}");
-        open(my $fh,'>',$torrent_file)||die "cant open $torrent_file: $!";
+        open(my $fh,'>',$path)||die "cant open $path";
         print $fh $torrent->{content};
         close $fh;
-        open_app($torrent_file);
+        open_app("\'$path\'");
         exit;
     }
 }

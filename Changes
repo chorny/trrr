@@ -18,5 +18,7 @@
 16.12.2016
 - POSIX termios_h loading with eval/require in case we're on MSWin32 or msys
 - say 'press key' after results are displayed 
+- torrent file name based on title 
+
 
 

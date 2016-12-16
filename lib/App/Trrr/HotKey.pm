@@ -9,13 +9,16 @@
 use strict;
 
 my $load = eval {
-   require POSIX;
-   POSIX->import(':termios_h');
-   1;
-};
-unless($load){ return } else {
     require POSIX;
     POSIX->import(':termios_h');
+    1;
+};
+unless($load){ return 1 } else {
+    #require POSIX::Termios;
+    #POSIX::Termios->import;
+    no strict;
+    #require POSIX;
+    #POSIX->import(':termios_h');
     my ($term, $oterm, $echo, $noecho, $fd_stdin);
 
     $fd_stdin = fileno(STDIN);

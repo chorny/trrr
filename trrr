@@ -68,14 +68,16 @@ sub show {
     @filter = sort { $b->{seeds} <=> $a->{seeds} } @filter;
     my @f = splice(@filter,0,15);
 
+    unless(@f){ say colored(['yellow'], 'no results') and exit }
     for(@f){
         if( $i % 2 ){ $key_color = 'black on_white' } else { $key_color = 'white on_black' }
 
         $_->{key} = $key;
         my $title = $strip->($_,'title');
         my $size = $strip->($_,'size');
-        my $category = $strip->($_, 'category');
-        say colored([$key_color],$key) . ' ' . colored(['cyan'],$_->{seeds}) . ' ' .  colored(['yellow'],$title) . ' ' . colored(['white'],$_->{category}) . ' ' . $size . 'M' unless defined $opt->{key};
+        
+        say colored([$key_color],$key) . ' ' . colored(['cyan'],$_->{seeds}) . ' ' .  colored(['yellow'],$title) . ' ' . colored(['white'],$_->{category}) . ' ' . $size . 'M' if defined $_->{key};
+
         $key++; $i++;
     }
     key(\@f);
@@ -84,10 +86,10 @@ sub show {
 sub key {
     my $filter = shift;
         get_torrent($filter) if defined $opt->{key};
-
-        if($opt->{os} eq 'MSWin32' or $opt->{os} eq 'msys'){ 
+            if($opt->{os} eq 'MSWin32' or $opt->{os} eq 'msys'){ 
             exit unless defined $opt->{key};
         } else {
+            say colored(['blink'],'^') . ' ' . colored(['grey5 on_grey15'],'P') . colored(['grey15 on_grey5'],'RESS') . colored(['grey5 on_grey15'],'K') . colored(['grey15 on_grey5'],'EY');
             require App::Trrr::HotKey;
             App::Trrr::HotKey->import( 'readkey' ) ;
             $opt->{key} = readkey();

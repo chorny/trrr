@@ -7,25 +7,22 @@ SYNOPSIS
     letter and it will download and open torrent in your default client.
 
 USAGE
-    - filter results with as many parameters as needed
-
-    - to search torrent filter keywords sa parameters
+    Filter results with as many parameters as needed
 
     `trrr keyword1 keyword2 keywordN'
 
-    - to limit results by minimum number of seeders add number as last
+    Limit results by minimum number of seeders add number as last
     parameter
 
     `trrr keyword1 keyword2 keywordN -100'
 
-    - first column is assigned key. To pick a result pres assigned key and
-    it'll be opened in your default torrent client.
+    Results are displayed, first column contains assigned key of torrent. To pick a result press assigned key and it'll be opened in your default torrent client. Except on windows where you have to specify key on CLI upfront. 
 
-    - to pick result from previous search add letter on command line
+    To pick result from previous search add letter on command line.
 
     `trrr keyword1 keyword2 keywordN -100 -a'
 
-    - App::Trr::HotKey is taken from StackOverflow post by brian d foy
+    App::Trr::HotKey is taken from StackOverflow post by brian d foy
 
 AUTHOR
     Zdeněk Bohuněk. <zdenek@cpan.org>

@@ -45,41 +45,36 @@ sub open_app {
 };
 
 1;
-
 =head1 SYNOPSIS
-
-CLI tool to search torrents using extratorrent API, Filters and sorts results which are then mapped to keys. Press the key with assigned letter and it will download and open torrent in your default client. 
+    
+CLI tool to search torrents using extratorrent API, Filters and sorts results which are then mapped to keys. Press the key with assigned letter and it will download and open torrent in your default client.
 
 =head1 USAGE
-
-- filter results with as many parameters as needed
-
-- to search torrent filter keywords sa parameters 
+    
+Filter results with as many parameters as needed
 
 C<trrr keyword1 keyword2 keywordN>
 
-- to limit results by minimum number of seeders add number as last parameter
+Limit results by minimum number of seeders add number as last parameter.
 
 C<trrr keyword1 keyword2 keywordN -100>
 
-- first column is assigned key. To pick a result pres assigned key and it'll be opened in your default torrent client. 
+Results are displayed, first column contains assigned key of torrent. To pick a result press assigned key and it'll be opened in your default torrent client. As results are sorted by number of seeders most of the time you want to press an A key. 
 
-- to pick result from previous search add letter on command line
+To pick result from previous search add letter on command line. This is necessary on Windows running 'Git/Bash for Windows' where you have to specify key on CLI upfront.
 
-C<trrr keyword1 keyword2 keywordN -100 -a>
-
-- App::Trr::HotKey is taken from StackOverflow post by brian d foy
+C<trrr keyword1 keyword2 keywordN -100 -a'>
 
 =head1 AUTHOR
 
-Zdeněk Bohuněk. E<lt>zdenek@cpan.orgE<gt>
+Zdeněk Bohuněk. <zdenek@cpan.org>
+
+App::Trr::HotKey is taken from StackOverflow post by brian d foy
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2016 by Zdeněk Bohuněk 
+Copyright 2016 by Zdenek Bohunek
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 
 =cut
-

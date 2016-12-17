@@ -50,3 +50,6 @@ trrr pulp fiction -100
 
 First column is assigned key. To pick a result pres assigned key and it'll be opened in your default torrent client.
 
+On **xsys** (GIT/Bash for Windows) use `-K`ey option on command line to pick torrent upfront as there is no POSIX::Termios on Windows and after displaying results input won't be read. 
+
+Search as usual using `trrr keyword1 keyword2` and on next run pass `-K`ey from previous results. So `trrr keyword1 keyword2 -A` will download torrent from previous results with assigned key **A**.

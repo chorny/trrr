@@ -20,5 +20,6 @@
 - say 'press key' after results are displayed 
 - torrent file name based on title 
 
-
+17.12.2016
+- fixed "illegal backslash escape sequence in string..." error
 

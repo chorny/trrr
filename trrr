@@ -139,7 +139,7 @@ C<trrr keyword1 keyword2 keywordN -100 -a'>
 
 =head1 AUTHOR
 
-Zdeněk Bohuněk. <zdenek@cpan.org>
+Zdenek Bohunek. <zdenek@cpan.org>
 
 App::Trr::HotKey is taken from StackOverflow post by brian d foy
 

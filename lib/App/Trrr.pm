@@ -8,7 +8,7 @@ App::Trrr - search torrents on CLI
 
 @ISA = qw(Exporter);
 @EXPORT = qw( open_app );
-our $VERSION = '0.03';
+our $VERSION = '0.06';
 
 use strict;
 # url to be opened

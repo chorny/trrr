@@ -22,4 +22,7 @@
 
 17.12.2016
 - fixed "illegal backslash escape sequence in string..." error
+- forgot to move version, moving to 0.05
 
+21.12.2016
+- remove \t from results

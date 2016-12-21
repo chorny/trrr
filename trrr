@@ -37,7 +37,7 @@ my $torrent_file = "$ENV{HOME}/Downloads/trrr.torrent";
 my $url = 'http://extratorrent.cc/json/?cid=4&search=' . join '+', @keyword;
 
 my $response = HTTP::Tiny->new->get($url);
-$response->{content} =~ tr|\\| |; 
+$response->{content} =~ tr|\\| |;  $response->{content} =~ tr|\t| |;
 my $results = decode_json( encode('utf8', $response->{content}) );
 
 

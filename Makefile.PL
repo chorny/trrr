@@ -10,8 +10,7 @@ WriteMakefile(
     PL_FILES            => {},
     'EXE_FILES'         => ['trrr'],
     PREREQ_PM => {
-        'HTTP::Tiny'    =>  0,
-        'JSON::PP'      =>  0,
+        'HTTP::Tinyish'    =>  0,
         'POSIX'         =>  0,
         'Term::ANSIColor'    =>  0,
         'Encode'        =>0,

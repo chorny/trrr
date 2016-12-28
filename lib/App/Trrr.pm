@@ -8,11 +8,9 @@ App::Trrr - search torrents on CLI
 
 @ISA = qw(Exporter);
 @EXPORT = qw( open_app );
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 use strict;
-# url to be opened
-#my $url = 'https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Package';
 
 # check if xdg-open utility is installed to use on linux
 my $check_xdg = sub {

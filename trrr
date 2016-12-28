@@ -12,10 +12,9 @@ trrr - search torrents on CLI
 
 use POSIX qw< ceil >;
 use Encode qw< encode >;
-use HTTP::Tiny;
-use JSON::PP;
 use Term::ANSIColor;
 use App::Trrr qw< open_app >;
+use App::Trrr::TPB qw< tpb >;
 
 unless(@ARGV){ system("perldoc trrr"); exit }
 if( $ARGV[0] eq '-h' ){ system("perldoc trrr"); exit }
@@ -33,20 +32,11 @@ for(@ARGV){
     } else { push @keyword, $_ }
 }
 
-my $torrent_file = "$ENV{HOME}/Downloads/trrr.torrent";
-my $url = 'http://extratorrent.cc/json/?cid=4&search=' . join '+', @keyword;
-
-my $response = HTTP::Tiny->new->get($url);
-$response->{content} =~ tr|\\| |;  $response->{content} =~ tr|\t| |;
-my $results = decode_json( encode('utf8', $response->{content}) );
-
-
 my $strip = sub {
     my( $item, $field ) = @_;
     my $term_width  = int `tput cols`; 
-    my $size = ceil(int($item->{size})/1000/1000);
     
-    my $line = $item->{key} . ' ' . $item->{seeds} . ' ' . "$item->{title}" . ' ' . $item->{category} . ' ' . $size . 'M';
+    my $line = $item->{key} . ' ' . $item->{seeds} . ' ' . "$item->{title}" . ' ' . $item->{category} . ' ' . $item->{size};
     my $max = $term_width - length($line);
 
     if( $term_width < length($line)){
@@ -57,7 +47,6 @@ my $strip = sub {
     my $title = $item->{title};
     my $striped = {};
     $striped->{title} = $title;
-    $striped->{size} = $size;
     return $striped->{$field}
 };
 
@@ -66,7 +55,7 @@ sub show {
     my $key = 'A';
     my $key_color;
     my $i = 1;
-    my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{$results->{list}};
+    my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{tpb(@keyword)};
     @filter = sort { $b->{seeds} <=> $a->{seeds} } @filter;
     my @f = splice(@filter,0,15);
 
@@ -77,10 +66,7 @@ sub show {
         $_->{key} = $key;
         my $title = $strip->($_,'title');
         $_->{file} = $title; $_->{file} =~ s/\ //g; $_->{file} .= '.torrent';
-        my $size = $strip->($_,'size');
-        
-        say colored([$key_color],$key) . ' ' . colored(['cyan'],$_->{seeds}) . ' ' .  colored(['yellow'],$title) . ' ' . colored(['white'],$_->{category}) . ' ' . $size . 'M' if defined $_->{key};
-
+        say colored([$key_color],$key) . ' ' . colored(['cyan'],$_->{seeds}) . ' ' .  colored(['yellow'],$title) . ' ' . colored(['white'],$_->{category}) . ' ' . $_->{size} if defined $_->{key};
         $key++; $i++;
     }
     key(\@f);
@@ -102,18 +88,8 @@ sub key {
 
 sub get_torrent {
     my $filter = shift;
-    say 'saving to ~/Downloads' if $opt->{key} =~ /[a-o]/;
-    my @picked = grep { $_->{key} eq uc $opt->{key} } @$filter;
-
-    for(@picked){ 
-        my $path = $ENV{HOME} . '/Downloads/' . $_->{file};
-        my $torrent = HTTP::Tiny->new->get("$_->{torrentLink}");
-        open(my $fh,'>',$path)||die "cant open $path";
-        print $fh $torrent->{content};
-        close $fh;
-        open_app("\'$path\'");
-        exit;
-    }
+    my( $picked ) = grep { $_->{key} eq uc $opt->{key} } @$filter;
+    open_app("$picked->{magnet}") if $opt->{key} =~ /[a-o]/;
 }
 
 show();

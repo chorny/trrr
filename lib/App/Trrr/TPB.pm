@@ -2,7 +2,7 @@ package App::Trrr::TPB;
 
 =head1 NAME
 
-App::Trrr::TPB - The PirateBay API
+App::Trrr::TPB - PirateBay API
 
 =cut
 
@@ -34,7 +34,6 @@ sub tpb {
 
 
         }
-                #if(/<td align="right">/){   $t{seeds} = $_; $t{seeds} =~ s/(.*?<td align="right">)([0-9]+)(<.*)/$2/ }
         if(/More from this category/){
             $t{category} = $_;$t{category} =~ s/(.*category\"\>)(.*?)(\<.*)/$2/;
             chomp($t{magnet}, $t{title}, $t{size}, $t{category}, $t{seeds}, $t{leechs});

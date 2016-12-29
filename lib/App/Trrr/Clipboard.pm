@@ -9,19 +9,19 @@ use warnings;
 use strict;
 use Mac::PropertyList;
 
-my $data;
-{
-    local $/;
-    open(my $fh,"<",'/private/var/mobile/Library/Caches/com.apple.UIKit.pboard/pasteboardDB');
-    $data = <$fh>;
-    close $fh;
-}
 
 sub clip {
     my $os = shift; # read or write
     
     my %clip = (
         ios =>  sub {
+            my $data;
+            {
+                local $/;
+                open(my $fh,"<",'/private/var/mobile/Library/Caches/com.apple.UIKit.pboard/pasteboardDB');
+                $data = <$fh>;
+                close $fh;
+            }
             my $mode = shift;
             my $clip = {};
             my $plist = Mac::PropertyList::parse_plist( $data );

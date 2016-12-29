@@ -12,7 +12,7 @@ our $VERSION = '0.01';
 
 use strict;
 use Carp;
-use HTTP::Tinyish;
+use HTTP::Tiny;
 
 sub tpb {
     my @keywords = @_;
@@ -25,12 +25,10 @@ sub tpb {
     my( @item, %t, $leechs, ) = ();
     open(my $fh,"<",\$response->{content}) || die "cant open response $!";
     while(<$fh>){
-        # if(/detName/){ 
             $t{title} = $_ and $t{title} =~ s/(.*?title\=\"Details for )(.*?)(\".*)/$2/ if /detName/;
-            #$t{title} = $_; $t{title} =~ s/(.*?title\=\"Details for )(.*?)(\".*)/$2/ 
-            #}
-        if(/\<a href\=\"magnet/){ $t{magnet} = $_;$t{magnet} =~ s/(\<a href\=\")(magnet.*?)(\".*)/$2/ }
-        if(/Size.*?\ /){    $t{size} = $_;$t{size} =~ s/(.*?)(Size.*?\ )(.*?)(\&nbsp\;)(...)(.*)/$3$5/ }
+            $t{magnet} = $_ and $t{magnet} =~ s/(\<a href\=\")(magnet.*?)(\".*)/$2/  if /\<a href\=\"magnet/;
+            $t{size} = $_ and $t{size} =~ s/(.*?)(Size.*?\ )(.*?)(\&nbsp\;)(...)(.*)/$3$5/ if /Size.*?\ /;
+
         if(/<td align="right">/){  
             unless($leechs){
                 $t{seeds} = $_; $t{seeds} =~ s/(.*?<td align="right">)([0-9]+)(<.*)/$2/; $leechs = 1;
@@ -38,7 +36,7 @@ sub tpb {
         }
         if(/More from this category/){
             if($category == 0){
-                $t{category} = $_;$t{category} =~ s/(.*category\"\>)(.*?)(\<.*)/$2/;
+                $t{category} = $_ and $t{category} =~ s/(.*category\"\>)(.*?)(\<.*)/$2/;
                 chomp($t{magnet}, $t{title}, $t{size}, $t{category}, $t{seeds}, $t{leechs});
                 push @item, {%t};
                 $category = 1;
@@ -49,8 +47,3 @@ sub tpb {
 }
 
 1;
-
-__DATA__
-pQuery('tpb.html')->find("a")->each(
-    sub { print $_->{href} . ' => ' . $_->{title} . "\n" if $_->{href} =~ /magnet/ }
-);

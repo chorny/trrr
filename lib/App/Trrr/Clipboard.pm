@@ -16,9 +16,11 @@ sub clip {
     my %clip = (
         ios =>  sub {
             my $data;
+            my $c = '/private/var/mobile/Library/Caches/com.apple.UIKit.pboard/pasteboardDB';
+            return ' ' unless -f $c;
             {
                 local $/;
-                open(my $fh,"<",'/private/var/mobile/Library/Caches/com.apple.UIKit.pboard/pasteboardDB');
+                open(my $fh,"<",$c);
                 $data = <$fh>;
                 close $fh;
             }

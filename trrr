@@ -1,7 +1,6 @@
 #!/usr/bin/env perl
 
 use 5.010;
-#use warnings;
 use strict;
 
 =head1 NAME
@@ -14,17 +13,21 @@ use POSIX qw< ceil >;
 use Encode qw< encode >;
 use Term::ANSIColor;
 use App::Trrr qw< open_app >;
-#use App::Trrr::TPB qw< tpb >;
 use App::Trrr::KAT qw< kat >;
+use App::Trrr::Clipboard qw< clip >;
+
+if( $ARGV[0] eq '-h' ){ system("perldoc trrr"); exit }
 
 my @keyword = ();
-#unless(@ARGV){ system("perldoc trrr"); exit }
+
 unless(@ARGV){ 
-    my $pasteboard = `pasteboard.pl`;
-    $pasteboard =~ s/\n*//g;
-    $pasteboard =~ s/\ */\ /g;
-    push @keyword, split(/ /, `pasteboard.pl`) }
-if( $ARGV[0] eq '-h' ){ system("perldoc trrr"); exit }
+    my @clip = ();
+    my $clip = clip('ios');
+    open(my $fh,'<',\$clip->('read')) || die "cant open string: $!";
+    while(<$fh>){ s/^\s+//; s/\s+$//; push @clip, $_ }; close $fh;
+    pop @clip; 
+    for(@clip){ push @keyword, $_ if /[a-z]/ }
+}
 
 my $opt = {
     os      =>  "$^O",
@@ -37,6 +40,7 @@ for(@ARGV){
         if(/[a-z]/){ $opt->{key} = lc $_ } else { $opt->{seeds} = int $_ } 
     } else { push @keyword, $_ }
 }
+
 
 my $strip = sub {
     my( $item, $field ) = @_;
@@ -61,7 +65,6 @@ sub show {
     my $key = 'A';
     my( $key_color ) = ();
     my $i = 1;
-    # y @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{tpb(@keyword)};
     my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{kat(@keyword)};
     @filter = sort { $b->{seeds} <=> $a->{seeds} } @filter;
     my @f = splice(@filter,0,15);

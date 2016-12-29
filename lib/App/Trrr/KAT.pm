@@ -33,7 +33,8 @@ sub kat {
         }
         if(/<td class="nobr center">/){
             $t{size} = $_;
-            $t{size} =~ s/(<td class="nobr center">)(.*?)( <span>)(.*?)(<.*)/$2$4/;
+            $t{size} =~ s/(<td class="nobr center">)(.*?)( <span>)(.)(.*)/$2$4/;
+            #$t{size} =~ s/(<td class="nobr center">)(.*?)( <span>)(.*?)(<.*)/$2$4/;
         }
         if(/<td class="green center">/){
             $t{seeds} = $_;

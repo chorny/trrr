@@ -33,7 +33,7 @@ sub open_app {
     open my $pipe,"-|",'uname -a';
     while(<$pipe>){
         # ----use regex to find os
-        if(/iPhone/){ system("$os->{ios} $url | pbcopy") }
+        if(/iPhone/){ system("$os->{ios} '$url   ' | pbcopy") }
         elsif(/Darwin/){ system("$os->{osx} $url") }
         elsif(/Ubuntu/){ system("$os->{ubuntu} $url") }
         #elsif(/Ubuntu/){ system("$os->{ubuntu} $url > /dev/null") }

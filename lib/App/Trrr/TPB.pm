@@ -27,7 +27,7 @@ sub tpb {
     while(<$fh>){
             $t{title} = $_ and $t{title} =~ s/(.*?title\=\"Details for )(.*?)(\".*)/$2/ if /detName/;
             $t{magnet} = $_ and $t{magnet} =~ s/(\<a href\=\")(magnet.*?)(\".*)/$2/  if /\<a href\=\"magnet/;
-            $t{size} = $_ and $t{size} =~ s/(.*?)(Size.*?\ )(.*?)(\&nbsp\;)(...)(.*)/$3$5/ if /Size.*?\ /;
+            $t{size} = $_ and $t{size} =~ s/(.*?)(Size.*?\ )(.*?)(\&nbsp\;)(.)(.*)/$3$5/ if /Size.*?\ /;
 
         if(/<td align="right">/){  
             unless($leechs){

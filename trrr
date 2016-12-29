@@ -1,8 +1,8 @@
 #!/usr/bin/env perl
 
 use 5.010;
+#use warnings;
 use strict;
-use warnings;
 
 =head1 NAME
 
@@ -15,6 +15,7 @@ use Encode qw< encode >;
 use Term::ANSIColor;
 use App::Trrr qw< open_app >;
 use App::Trrr::TPB qw< tpb >;
+use App::Trrr::KAT qw< kat >;
 
 unless(@ARGV){ system("perldoc trrr"); exit }
 if( $ARGV[0] eq '-h' ){ system("perldoc trrr"); exit }
@@ -22,7 +23,7 @@ my @keyword = ();
 
 my $opt = {
     os      =>  "$^O",
-    seeds   =>  0,
+    seeds   =>  1,
 };
 
 for(@ARGV){
@@ -53,9 +54,10 @@ my $strip = sub {
 
 sub show {
     my $key = 'A';
-    my $key_color;
+    my( $key_color ) = ();
     my $i = 1;
-    my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{tpb(@keyword)};
+    #my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{tpb(@keyword)};
+    my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{kat(@keyword)};
     @filter = sort { $b->{seeds} <=> $a->{seeds} } @filter;
     my @f = splice(@filter,0,15);
 
@@ -65,7 +67,7 @@ sub show {
 
         $_->{key} = $key;
         my $title = $strip->($_,'title');
-        $_->{file} = $title; $_->{file} =~ s/\ //g; $_->{file} .= '.torrent';
+        #$_->{file} = $title; $_->{file} =~ s/\ //g; $_->{file} .= '.torrent';
         say colored([$key_color],$key) . ' ' . colored(['cyan'],$_->{seeds}) . ' ' .  colored(['yellow'],$title) . ' ' . colored(['white'],$_->{category}) . ' ' . $_->{size} if defined $_->{key};
         $key++; $i++;
     }

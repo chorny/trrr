@@ -3,11 +3,11 @@ package App::Trrr::Clipboard;
 
 @ISA = qw(Exporter);
 @EXPORT = qw( clip );
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use warnings;
 use strict;
-use Mac::PropertyList;
+#use Mac::PropertyList;
 
 
 sub clip {
@@ -24,6 +24,9 @@ sub clip {
             }
             my $mode = shift;
             my $clip = {};
+            require Mac::PropertyList;
+            Mac::PropertyList->import('parse_plist');
+
             my $plist = Mac::PropertyList::parse_plist( $data );
             for(@{$plist}){
                 my $s = $_->as_perl;

@@ -36,9 +36,7 @@ sub open_app {
         if(/iPhone/){ system("$os->{ios} '$url   ' | pbcopy") }
         elsif(/Darwin/){ system("$os->{osx} $url") }
         elsif(/Ubuntu/){ system("$os->{ubuntu} $url") }
-        #elsif(/Ubuntu/){ system("$os->{ubuntu} $url > /dev/null") }
         elsif(/Linux/){ my $open = $check_xdg->($os->{linux}); system("$open $url") }
-        #elsif(/Linux/){ my $open = $check_xdg->($os->{linux}); system("$open $url > /dev/null") }
     }
 };
 

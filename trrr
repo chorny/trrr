@@ -17,9 +17,14 @@ use App::Trrr qw< open_app >;
 #use App::Trrr::TPB qw< tpb >;
 use App::Trrr::KAT qw< kat >;
 
-unless(@ARGV){ system("perldoc trrr"); exit }
-if( $ARGV[0] eq '-h' ){ system("perldoc trrr"); exit }
 my @keyword = ();
+#unless(@ARGV){ system("perldoc trrr"); exit }
+unless(@ARGV){ 
+    my $pasteboard = `pasteboard.pl`;
+    $pasteboard =~ s/\n*//g;
+    $pasteboard =~ s/\ */\ /g;
+    push @keyword, split(/ /, `pasteboard.pl`) }
+if( $ARGV[0] eq '-h' ){ system("perldoc trrr"); exit }
 
 my $opt = {
     os      =>  "$^O",
@@ -56,7 +61,7 @@ sub show {
     my $key = 'A';
     my( $key_color ) = ();
     my $i = 1;
-    #my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{tpb(@keyword)};
+    # y @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{tpb(@keyword)};
     my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{kat(@keyword)};
     @filter = sort { $b->{seeds} <=> $a->{seeds} } @filter;
     my @f = splice(@filter,0,15);

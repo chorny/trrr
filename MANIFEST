@@ -1,5 +1,7 @@
 Changes
 lib/App/Trrr/HotKey.pm
+lib/App/Trrr/KAT.pm
+lib/App/Trrr/TPB.pm
 lib/App/Trrr.pm
 Makefile.PL
 MANIFEST

@@ -6,3 +6,4 @@ MANIFEST
 README.md
 trrr
 README
+lib/App/Trrr/Clipboard.pm

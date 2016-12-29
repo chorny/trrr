@@ -5,7 +5,7 @@ trrr - search torrents from CLI
 
 #SYNOPSIS
 
-CLI tool for searching torrents using as few keystrokes as it gets. Looking for torrents throught web browser can often be annoying as you are flooded with popups and fake Download buttons. trrr is written in Perl, it's using only core dependencies and it'll work on OSX, Ubuntu, iOS-jb. It's using extratorrent API, filters and sorts results then map each result to different key. Press a key with assigned letter and it will download torrent into `~/Downloads` directory. On OSX and Linux it'll also open torrent in your default client (see gif). 
+CLI tool for searching torrents using as few keystrokes as it gets. Looking for torrents throught web browser can often be annoying as you are flooded with popups and fake Download buttons. trrr is written in Perl, it's using only core dependencies and it'll work on OSX, Ubuntu, iOS-jb. It'll filter and sort results then map each result to different keyboard key. Press a key with assigned letter and on OSX and Ubuntu it will open magnet in your default torrent client. On iOS it'll place magnet string into clipboard so it can be pasted into iTransmission GUI.
 
 
 
@@ -23,6 +23,8 @@ sudo cpan App::Trrr
 or 
 
 ```
+#install URI::Encode
+sudo cpan URI::Encode
 git clone https://github.com/z448/trrr
 cd trrr
 perl Makefile.PL

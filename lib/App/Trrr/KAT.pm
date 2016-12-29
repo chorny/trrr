@@ -27,13 +27,14 @@ sub kat {
     open(my $fh,"<",\$response->{content}) || die "cant open response $!";
     while(<$fh>){
         if(/data-sc-params="\{ 'name'\:/){
-            $t{magnet} = $_;
-            $t{magnet} =~ s/(.*\{ 'name': ')(.*?)(\'.*)(magnet\:.*?)('.*)/$4/; #$t{title} = $2;
+            s/(.*\{ 'name': ')(.*?)(\'.*)(magnet\:.*?)('.*)/$2$4/;
+            $t{title} = $2; $t{magnet} = $4;
+            $t{title} = uri_decode($t{title});
         }
-        if(/<strong class="red">/){
-            $t{title} = $_;
-            $t{title} =~ s/(.*<strong class="red">)(.*?)(<\/strong>)(.*?)(<\/a.*)/$2$4/;
-        }
+        #if(/<strong class="red"/){
+        #   $t{title} = $_;
+        #   $t{title} =~ s/(.*?<strong class="red">)(.*?)(<\/strong> <strong class="red">)(.*?)(<\/strong> - <strong class="red">)(.*?)(<\/.*)/$2$4$6/;
+        #}
         if(/<td class="nobr center">/){
             $t{size} = $_;
             $t{size} =~ s/(<td class="nobr center">)(.*?)( <span>)(.*?)(<.*)/$2$4/;

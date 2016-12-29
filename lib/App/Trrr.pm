@@ -8,7 +8,7 @@ App::Trrr - search torrents on CLI
 
 @ISA = qw(Exporter);
 @EXPORT = qw( open_app );
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use strict;
 
@@ -24,7 +24,7 @@ my $check_xdg = sub {
 sub open_app {
     my $url = shift;
     my $os = {  osx     => 'open', # ----------use 'uiopen' if osx
-                ios     => 'uiopen', # --------use 'uiopen' if ios
+                ios     => 'echo', # --------use 'uiopen' if ios
                 ubuntu  => 'xdg-open', # -------use 'firefox' if Ubuntu
                 linux   => 'xdg-open', # ------use 'xdg-open if non-ubutnu linux
     };
@@ -33,7 +33,7 @@ sub open_app {
     open my $pipe,"-|",'uname -a';
     while(<$pipe>){
         # ----use regex to find os
-        if(/iPhone/){ system("$os->{ios} $url") }
+        if(/iPhone/){ system("$os->{ios} $url | pbcopy") }
         elsif(/Darwin/){ system("$os->{osx} $url") }
         elsif(/Ubuntu/){ system("$os->{ubuntu} $url") }
         #elsif(/Ubuntu/){ system("$os->{ubuntu} $url > /dev/null") }

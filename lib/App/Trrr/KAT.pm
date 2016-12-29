@@ -14,13 +14,13 @@ use 5.010;
 use strict;
 use URI::Encode qw(uri_decode);
 use Carp;
-use HTTP::Tinyish;
+use HTTP::Tiny;
 
 sub kat {
     my @keywords = @_;
     my $url = 'http://kickasstorrents.to/usearch/' . join('%20', @keywords) . '/';
 
-    my $response = HTTP::Tinyish->new->get( $url );
+    my $response = HTTP::Tiny->new->get( $url );
     croak "Failed to get $url\n" unless $response->{success};
      
     my( @item, %t ) = ();
@@ -31,10 +31,6 @@ sub kat {
             $t{title} = $2; $t{magnet} = $4;
             $t{title} = uri_decode($t{title});
         }
-        #if(/<strong class="red"/){
-        #   $t{title} = $_;
-        #   $t{title} =~ s/(.*?<strong class="red">)(.*?)(<\/strong> <strong class="red">)(.*?)(<\/strong> - <strong class="red">)(.*?)(<\/.*)/$2$4$6/;
-        #}
         if(/<td class="nobr center">/){
             $t{size} = $_;
             $t{size} =~ s/(<td class="nobr center">)(.*?)( <span>)(.*?)(<.*)/$2$4/;

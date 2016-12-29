@@ -18,7 +18,7 @@ sub tpb {
     my @keywords = @_;
     my $url = 'https://thepiratebay.org/search/' . join('%20', @keywords) . '/0/99/0';
 
-    my $response = HTTP::Tinyish->new->get( $url );
+    my $response = HTTP::Tiny->new->get( $url );
     croak "Failed to get $url\n" unless $response->{success};
      
     my $category = 0;

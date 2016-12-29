@@ -14,7 +14,7 @@ use POSIX qw< ceil >;
 use Encode qw< encode >;
 use Term::ANSIColor;
 use App::Trrr qw< open_app >;
-use App::Trrr::TPB qw< tpb >;
+#use App::Trrr::TPB qw< tpb >;
 use App::Trrr::KAT qw< kat >;
 
 unless(@ARGV){ system("perldoc trrr"); exit }
@@ -56,8 +56,8 @@ sub show {
     my $key = 'A';
     my( $key_color ) = ();
     my $i = 1;
-    my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{tpb(@keyword)};
-    #my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{kat(@keyword)};
+    #my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{tpb(@keyword)};
+    my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{kat(@keyword)};
     @filter = sort { $b->{seeds} <=> $a->{seeds} } @filter;
     my @f = splice(@filter,0,15);
 

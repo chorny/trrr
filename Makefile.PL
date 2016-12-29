@@ -10,10 +10,11 @@ WriteMakefile(
     PL_FILES            => {},
     'EXE_FILES'         => ['trrr'],
     PREREQ_PM => {
-        'HTTP::Tinyish'    =>  0,
+        'HTTP::Tiny'    =>  0,
         'POSIX'         =>  0,
         'Term::ANSIColor'    =>  0,
-        'Encode'        =>0,
+        'Encode'        => 0,
+        'URI::Encode'        =>0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'App::Trrr-*' },

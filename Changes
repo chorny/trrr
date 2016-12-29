@@ -17,8 +17,8 @@
 
 16.12.2016
 - POSIX termios_h loading with eval/require in case we're on MSWin32 or msys
-- say 'press key' after results are displayed 
-- torrent file name based on title 
+- say 'press key' after results are displayed
+- torrent file name based on title
 
 17.12.2016
 - fixed "illegal backslash escape sequence in string..." error
@@ -29,3 +29,13 @@
 
 28.12.2016
 - changed extratorrent for piratebay
+- no torrents are downloaded, instead magnet link is opened
+- added IO::Socket::SSL  and HTTP::Tinyish dependency, which should pick right https client (LWP, Tiny, curl or wget)
+- needs min. OpenSSL 1.0.1 library because of TLS v1.2
+
+29.12.2016
+- added kickass API used by default, thus no need for OpenSSL 1.0.1, thus works on iOS
+- piratebay API not used for now
+- removed HTTP::Tinyish dependency and added URI::Encode, trrr now uses 'curl' if exist else HTTP::Tiny
+- on iOS magnet link is placed into clipboard so it can be pasted into iTransmission 'Magnet' field
+- on iOS if trrr is started without any option/keyword it'll take content of clipboard and use it as keywords. For example if you select/copy some string in browser just launch 'trrr' in terminal

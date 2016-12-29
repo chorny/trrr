@@ -56,8 +56,8 @@ sub show {
     my $key = 'A';
     my( $key_color ) = ();
     my $i = 1;
-    #my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{tpb(@keyword)};
-    my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{kat(@keyword)};
+    my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{tpb(@keyword)};
+    #my @filter = grep { int($_->{seeds}) > int($opt->{seeds}) } @{kat(@keyword)};
     @filter = sort { $b->{seeds} <=> $a->{seeds} } @filter;
     my @f = splice(@filter,0,15);
 
@@ -68,7 +68,7 @@ sub show {
         $_->{key} = $key;
         my $title = $strip->($_,'title');
         #$_->{file} = $title; $_->{file} =~ s/\ //g; $_->{file} .= '.torrent';
-        say colored([$key_color],$key) . ' ' . colored(['cyan'],$_->{seeds}) . ' ' .  colored(['yellow'],$title) . ' ' . colored(['white'],$_->{category}) . ' ' . $_->{size} if defined $_->{key};
+        say colored([$key_color],$key) . ' ' . colored(['cyan'],$_->{seeds}) . ' ' .  colored(['yellow'],$title) . ' ' . colored(['grey8'],$_->{category}) . ' ' . colored(['bold'],$_->{size}) if defined $_->{key};
         $key++; $i++;
     }
     key(\@f);

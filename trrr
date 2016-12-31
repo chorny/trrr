@@ -22,10 +22,10 @@ my @keyword = ();
 
 unless(@ARGV){ 
     my @clip = ();
-    my $clip = clip('ios');
-    open(my $fh,'<',\$clip->('read')) || die "cant open string: $!";
+    my $clip = clip();
+    open(my $fh,'<',\$clip->()) || die "cant open string: $!";
     while(<$fh>){ s/^\s+//; s/\s+$//; push @clip, $_ }; close $fh;
-    pop @clip; 
+    #pop @clip 
     for(@clip){ push @keyword, $_ if /[a-z]/ }
 }
 

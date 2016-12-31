@@ -1,54 +1,67 @@
 package App::Trrr::Clipboard;
 
-
 @ISA = qw(Exporter);
-@EXPORT = qw( clip );
-our $VERSION = '0.02';
+@EXPORT_OK = qw( clip );
+our $VERSION = '0.03';
 
 use warnings;
 use strict;
 #use Mac::PropertyList;
 
+sub os {
+    open my $pipe,"-|",'uname -a';
+        while(<$pipe>){
+            if(/iPhone/){ return 'iPhone' }
+            else { return $^O }
+        }
+}
+my $os = os();
 
-sub clip {
-    my $os = shift; # read or write
-    
-    my %clip = (
-        ios =>  sub {
-            my $data;
-            my $c = '/private/var/mobile/Library/Caches/com.apple.UIKit.pboard/pasteboardDB';
-            return ' ' unless -f $c;
-            {
-                local $/;
-                open(my $fh,"<",$c);
-                $data = <$fh>;
-                close $fh;
-            }
-            my $mode = shift;
-            my $clip = {};
-            require Mac::PropertyList;
-            Mac::PropertyList->import('parse_plist');
-
-            my $plist = Mac::PropertyList::parse_plist( $data );
-            for(@{$plist}){
-                my $s = $_->as_perl;
-                unless($s eq 1){          
-                    if($s->{name} eq 'com.apple.UIKit.pboard.general'){
-                        for(@{$s->{items}->{mobile}}){ $clip->{read} = $_->{'public.utf8-plain-text'} }
-                    }
-                }
-            }
-            return $clip->{$mode};
-        },
-
-        osx =>  sub {
-            my $mode = shift;
-            my $clip = {};
-            $clip->{read} = `pbpaste`; chomp($clip->{read});
-            return $clip->{read};
-        },
-    );
-    return $clip{$os};
+sub tool {
+    my $tool = {
+        linux   => [ 'xsel', 'xclip' ],
+        iPhone	=> [ 'pbpaste', 'Mac::PropertyList' ],
+        darwin  => [ 'pbpaste', 'pbcopy' ],
+        msys    => [ '/dev/clipboard' ],
+    };
+    for( @{$tool->{$os}} ){ return $_ if `which $_` }
 }
 
-1;
+sub clip {
+    my $tool = tool();
+    my $clip = sub {
+        #my $clip = {
+        #linux =>  sub{ 
+            #linux =>  sub{ 
+            my $string = shift || undef;
+            unless( $string ){ my $read = `$tool`; chomp($read); return $read }
+            else { return system("echo $string | $tool") }
+            #},
+    };
+    return $clip;
+    #return $clip->{$os};
+};
+
+
+
+
+
+
+
+
+
+# ----------------------------
+
+#=head1 create clipboard
+
+my $c = clip();
+
+#=head1 read from clipboard
+
+print $c->();
+
+#=head1 write to clipboard
+
+#print $c->('ZDENEK')
+
+#=cut

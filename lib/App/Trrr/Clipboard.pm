@@ -9,17 +9,19 @@ use strict;
 
 sub os {
     open my $pipe,"-|",'uname -a';
-        while(<$pipe>){
-            if(/iPhone/){ return 'iPhone' }
-            else { return $^O }
-        }
+    while(<$pipe>){
+        if(/iPhone/){ return 'iPhone' }
+        else { return $^O }
+    }
 }
+
 my $os = os();
 
 sub tool {
     my $tool = {
         linux   => [ 'xsel', 'xclip' ],
-        iPhone	=> [ 'pbpaste', 'Mac::PropertyList' ],
+        iPhone	=> [ 'ls' ],
+        #iPhone	=> [ 'perldoc -l Mac::PropertyList' ],
         darwin  => [ 'pbpaste', 'pbcopy' ],
         msys    => [ '/dev/clipboard' ],
     };
@@ -28,6 +30,7 @@ sub tool {
 
 sub clip {
     my $tool = tool();
+    if( $tool eq 'ls' ){ my $clip = ios_clip(); return sub{ $clip } }
     my $clip = sub {
             my $string = shift || undef;
             unless( $string ){ my $read = `$tool`; chomp($read); return $read }
@@ -38,15 +41,18 @@ sub clip {
 
 
 sub ios_clip {
-       my $data;
+       my( $data )= ();
        my $c = '/private/var/mobile/Library/Caches/com.apple.UIKit.pboard/pasteboardDB';
-       local $/;
-       open(my $fh,"<",$c) || die "cant open $c: $!";
-       $data = <$fh>; close $fh;
+       {
+           local $/;
+           open(my $fh,"<",$c) || die "cant open $c: $!";
+           $data = <$fh>; close $fh;
+       }
        my $load = eval {
-           require Mac::PropertyList;
-           Mac::PropertyList->import('parse_plist');1;
-       };
+          require Mac::PropertyList;
+          Mac::PropertyList->import();
+          1;
+      };
 
        unless($load){ return }
        else {
@@ -55,7 +61,9 @@ sub ios_clip {
                my $s = $_->as_perl;
                unless($s eq 1){          
                    if($s->{name} eq 'com.apple.UIKit.pboard.general'){
-                       for(@{$s->{items}->{mobile}}){ return $_->{'public.utf8-plain-text'} }
+                       for(@{$s->{items}->{mobile}}){
+                           return $_->{'public.utf8-plain-text'};
+                       }
                    }
                }
            }

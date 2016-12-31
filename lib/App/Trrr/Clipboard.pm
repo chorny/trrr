@@ -52,16 +52,16 @@ sub clip {
 
 # ----------------------------
 
-#=head1 create clipboard
+=head1 create clipboard
 
 my $c = clip();
 
-#=head1 read from clipboard
+=head1 read from clipboard
 
 print $c->();
 
-#=head1 write to clipboard
+=head1 write to clipboard
 
 #print $c->('ZDENEK')
 
-#=cut
+=cut

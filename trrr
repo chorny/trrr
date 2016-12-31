@@ -105,6 +105,10 @@ sub get_torrent {
 show();
 
 
+# activator + clipboard feature
+# sleep 3 && activator send com.officialscheduler.mterminal && trrr
+#
+
 =head1 SYNOPSIS
     
 CLI tool to search torrents using extratorrent API, Filters and sorts results which are then mapped to keys. Press the key with assigned letter and it will download and open torrent in your default client.

@@ -20,8 +20,7 @@ my $os = os();
 sub tool {
     my $tool = {
         linux   => [ 'xsel', 'xclip' ],
-        iPhone	=> [ 'ls' ],
-        #iPhone	=> [ 'perldoc -l Mac::PropertyList' ],
+        iPhone	=> [ '. ;which perldoc -l Mac::PropertyList' ],
         darwin  => [ 'pbpaste', 'pbcopy' ],
         msys    => [ '/dev/clipboard' ],
     };
@@ -30,7 +29,7 @@ sub tool {
 
 sub clip {
     my $tool = tool();
-    if( $tool eq 'ls' ){ my $clip = ios_clip(); return sub{ $clip } }
+    if( $tool =~/PropertyList/ ){ my $clip = ios_clip(); return sub{ $clip } }
     my $clip = sub {
             my $string = shift || undef;
             unless( $string ){ my $read = `$tool`; chomp($read); return $read }
@@ -78,7 +77,6 @@ sub ios_clip {
 
 
 
-# ----------------------------
 
 =head1 create clipboard
 
@@ -90,6 +88,6 @@ print $c->();
 
 =head1 write to clipboard
 
-#print $c->('ZDENEK')
+#print $c->('text')
 
 =cut

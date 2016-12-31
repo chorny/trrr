@@ -24,7 +24,8 @@ unless(@ARGV){
     my @clip = ();
     my $clip = clip();
     open(my $fh,'<',\$clip->()) || die "cant open string: $!";
-    while(<$fh>){ s/^\s+//; s/\s+$//; push @clip, $_ }; close $fh;
+    my $line = <$fh>;
+    $line =~  s/^\s+//; $line =~ s/\s+$//; push @clip, $line; close $fh;
     #pop @clip 
     for(@clip){ push @keyword, $_ if /[a-z]/ }
 }
@@ -104,10 +105,6 @@ sub get_torrent {
 
 show();
 
-
-# activator + clipboard feature
-# sleep 3 && activator send com.officialscheduler.mterminal && trrr
-#
 
 =head1 SYNOPSIS
     

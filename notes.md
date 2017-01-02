@@ -1,0 +1,1 @@
+add Mozilla::CA deb and use it with curl
